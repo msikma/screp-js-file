@@ -4,15 +4,11 @@
 const fs = require('fs').promises
 const Screp = require('screp-js')
 
-/** Default settings for what values to include in the output. */
-const optionDefaults = {
-  header: true,
-  computed: true,
-  mapData: false,
-  mapTiles: false,
-  mapResLoc: false,
-  cmds: false,
-  rawData: false
+/** Output transformation options: primarily for debugging. Undocumented and unsupported. */
+const transformDefaults = {
+  _doTransform: true,
+  _doFilter: true,
+  _doRoundtrip: false
 }
 
 function ScrepFs() {
@@ -21,14 +17,16 @@ function ScrepFs() {
    * 
    * This just reads the file into a buffer and then passes it on to screp-js.
    */
-  async function parseFile(filepath, userOptions = {}, readFileOptions = {}) {
-    const options = {...optionDefaults, ...userOptions}
+  async function parseFile(filepath, userOptions = {}, readFileOptions = {}, _transformOptions = {}) {
+    const transformOptions = {...transformDefaults, ..._transformOptions}
+    const options = Screp.resolveOptions(userOptions, true)
     const file = await fs.readFile(filepath, {encoding: null, ...readFileOptions})
-    return Screp.parseBuffer(file, options)
+    return Screp.parseBuffer(file, options, transformOptions)
   }
   
   return {
     parseFile,
+    resolveOptions: Screp.resolveOptions,
     parseBuffer: Screp.parseBuffer,
     getVersion: Screp.getVersion,
     getVersionObject: Screp.getVersionObject

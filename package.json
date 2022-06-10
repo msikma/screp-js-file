@@ -1,6 +1,6 @@
 {
   "name": "screp-js-file",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pure Javascript version of screp, a StarCraft: Remastered replay file parser - local filesystem version",
   "main": "src/index.js",
   "scripts": {
@@ -22,8 +22,10 @@
   "repository": "https://github.com/msikma/screp-js-file",
   "author": "Michiel Sikma <michiel@sikma.org>",
   "license": "Apache-2.0",
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^28.1.1"
+  },
   "dependencies": {
-    "screp-js": "^0.2.0"
+    "screp-js": "^0.2.1"
   }
 }
